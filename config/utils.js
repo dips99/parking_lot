@@ -31,7 +31,8 @@ module.exports = {
 			
 			// console.log('totalparking index '+index+' parkar length '+parkingArr.length);
 			let carfound = search(parkingArr,carnumber);
-			console.log("carfound "+carfound);
+			console.log("carfound ");
+			console.log(carfound);
 			console.log("time "+time);
 
 			if(time==undefined){
@@ -39,7 +40,7 @@ module.exports = {
 				return 0;
 			}
 			else{
-				if(carfound==1){
+				if(carfound['match']==1){
 					let charge = charges(time);
 					return [carfound,charge];
 				}else{
@@ -48,6 +49,8 @@ module.exports = {
 				}
 			}
 
+			
+		    
 		}else{
 			return null;
 		}
@@ -84,31 +87,35 @@ function findParking(parkingArr){
 	return ele;
 }
 function search(parkingArr,carnumber){
-	let i=0;
-	let matched = 0;
-	parkingArr.forEach(el => {
-		if(el[i]==carnumber){
-			matched = 1;
+	let matched = [];
+	for(var i=0;i<=parkingArr.length;i++){
+		console.log(parkingArr[i]);
+		parkedCarNumber = Object.values(parkingArr[i]);
+		if(parkedCarNumber==carnumber){
+			matched["match"] = 1;
+			matched["slot"] = i;
+			parkingArr[i][i] = null;
 			break;
+		}else{
+			matched["match"] = 0;
+			continue;
 		}
-		// if(el[i]==carnumber){
-		// 	matched = 1;	
-		// }
-		
-		i++;
-	});
+	}
+
 	return matched;
 }
 
 function charges(time){
 	let firstHoursCharges = 10;
 	let total;
-	if(0<time<=2){
-		total = firstHoursCharges;
-	}
-	else if(time>2){
-		timeAftTwoHours = time-2;
+	if(time>2){
+		timeAftTwoHours = parseInt(time-2);
 		total = firstHoursCharges+timeAftTwoHours*10;
+		
+	}
+	else{
+		total = firstHoursCharges;
+		
 	}
 	return total;
 }
