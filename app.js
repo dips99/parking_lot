@@ -15,7 +15,6 @@ var utils = require('./config/utils.js');
 
 let totalParkings = 0;
 let parkingArr = [];
-let availableSlot = [];
 
 if(elements[elements.length - 1] == 'true'){
 	interact();
@@ -49,12 +48,8 @@ function commands(input){
 					var obj = new Object();
 					obj[parseInt(i)] = null;
 					parkingArr.push(obj);
-					availableSlot.push(i);
 				}
 				console.log("Created a parking lot with " + maxSize  + " slots.");
-				// console.log(availableSlot);
-				// console.log('par');
-				// console.log(parkingArr);
             } catch (e) {
                 return "Parameter is not a number!";
             }    
@@ -70,17 +65,24 @@ function commands(input){
         	}
 	        break;
 	    case "leave":
+			var leftCharges = utils.leave(totalParkings, parkingArr, input);
+			if (Array.isArray(leftCharges)){
+				if(leftCharges["match"]==0){
+					console.log("Registration number "+leftCharges["car"]+" not found");
+				}
+				else{
+					console.log("Registration number "+leftCharges["car"]
+					+" with Slot Number "+leftCharges["slot"]
+					+" is free with Charge "+leftCharges["charge"]);
+				}
+			}else{
+				console.log('Please enter total hours car was parked');
+			}
 			
-			var leftcharges = utils.leave(totalParkings, parkingArr, input);
-        	// if(leftcharges!=0){
-				console.log(leftcharges);
-			// }
-			// else{
-
-			// }
 			break;
 	    case "status":
-	    	var values = utils.status(totalParkings, parkingArr);
+			var values = utils.status(totalParkings, parkingArr);
+			console.log(values.length);
         	if(values.length > 1){
         		console.log(values.join("\n"));
         	}else{
