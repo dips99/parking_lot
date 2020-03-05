@@ -1,4 +1,3 @@
-# Add script to:
 # * Install dependencies
     npm init
     npm install
@@ -9,5 +8,4 @@
 # * Run Test Suit to validate
     npm test
 
-# After this is run, bin/parking_lot
-# should Just Work.
+
