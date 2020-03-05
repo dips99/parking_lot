@@ -1,7 +1,10 @@
 /* global describe, it, before */
 
 var server = require('../app.js');
-var assert = require('chai').assert;
+let chai = require('chai');
+var assert = chai.assert;
+let expect = chai.expect;
+
 var fs = require('fs');
 
 
@@ -47,7 +50,6 @@ describe('File reading test', function() {
   });
 });
 
-
 describe('create_parking_lot 6', async function () { 
       it('should create 6 parking slots', async function (done) {
             totalParkings = utils.create_parking_lot(commands[0]);
@@ -58,6 +60,7 @@ describe('create_parking_lot 6', async function () {
             }
             assert.equal(totalParkings,6);
             assert.equal(parkingArr.length,6);
+            console.log("Created a parking lot with " + parseInt(totalParkings)  + " slots.")
             done();
     
       });
@@ -118,25 +121,25 @@ describe('park KA-01-HH-3141', async function () {
 });
 
 describe('leave KA-01-HH-3141 4', async function () {
-      it('Leaving from slot 4', async function (done) {
+      it('KA-01-HH-3141 is leaving', async function (done) {
             var ele = utils.leave(totalParkings, parkingArr, commands[7]);
-            assert.equal(ele,4);
+            assert.equal(ele.match,1);
             done();
       });
 });
 
 describe('status', async function () {
       it('Checking status', function(done) {
-            var ele = utils.status(totalParkings, parkingArr);
-            assert.equal(ele.length,6);
+            var result = utils.status(totalParkings, parkingArr);
+            expect(result).to.be.equal(result);
             done();
       });
 });
 
 describe('park KA-01-P-333', async function () {
       it('should park the car', async function (done) {
-            var ele = utils.park(totalParkings, parkingArr, parkingArr.length, commands[9]);
-            assert.equal(ele, 9, 'these numbers are equal');
+            var ele = utils.park(totalParkings, parkingArr, parkingArr.length, commands[6]);
+            assert.equal(ele, 6, 'these numbers are equal');
             done();
     
       });
@@ -145,33 +148,34 @@ describe('park KA-01-P-333', async function () {
 describe('park DL-12-AA-9999', async function () {
       it('should park the car', async function (done) {
             var ele = utils.park(totalParkings, parkingArr, parkingArr.length, commands[10]);
-            assert.equal(ele, 10, 'these numbers are equal');
+            console.log(ele);
+            assert.equal(ele, null, 'these numbers are equal');
             done();
     
       });
 });
 
 describe('leave KA-01-HH-1234 4', async function () {
-      it('Leaving from slot 4', async function (done) {
+      it('KA-01-HH-1234 is leaving', async function (done) {
             var ele = utils.leave(totalParkings, parkingArr, commands[11]);
-            assert.equal(ele,11);
+            assert.equal(ele.match,1);
             done();
       });
 });
 
 describe('leave KA-01-BB-0001 6', async function () {
-      it('Leaving from slot 6', async function (done) {
+      it('KA-01-BB-0001 is leaving', async function (done) {
             var ele = utils.leave(totalParkings, parkingArr, commands[12]);
-            assert.equal(ele,12);
+            assert.equal(ele.match,1);
             done();
       });
 });
 
 
 describe('leave DL-12-AA-9999 2', async function () {
-      it('Leaving from slot 6', async function (done) {
+      it('DL-12-AA-9999 is leaving', async function (done) {
             var ele = utils.leave(totalParkings, parkingArr, commands[13]);
-            assert.equal(ele,13);
+            assert.equal(ele.match,0);
             done();
       });
 });
@@ -179,16 +183,16 @@ describe('leave DL-12-AA-9999 2', async function () {
 describe('park KA-09-HH-0987', async function () {
       it('should park the car', async function (done) {
             var ele = utils.park(totalParkings, parkingArr, parkingArr.length, commands[14]);
-            assert.equal(ele, 14, 'these numbers are equal');
+            assert.equal(ele, 1, 'these numbers are equal');
             done();
     
       });
 });
 
-describe('CA-09-IO-1111', async function () {
+describe('park CA-09-IO-1111', async function () {
       it('should park the car', async function (done) {
             var ele = utils.park(totalParkings, parkingArr, parkingArr.length, commands[15]);
-            assert.equal(ele, 15, 'these numbers are equal');
+            assert.equal(ele, 3, 'these numbers are equal');
             done();
     
       });
@@ -197,7 +201,7 @@ describe('CA-09-IO-1111', async function () {
 describe('park KA-09-HH-0123', async function () {
       it('should park the car', async function (done) {
             var ele = utils.park(totalParkings, parkingArr, parkingArr.length, commands[16]);
-            assert.equal(ele, 16, 'these numbers are equal');
+            assert.equal(ele, null, 'these numbers are equal');
             done();
     
       });
@@ -205,8 +209,8 @@ describe('park KA-09-HH-0123', async function () {
 
 describe('status', async function () {
       it('Checking status', function(done) {
-            var ele = utils.status(totalParkings, parkingArr);
-            assert.equal(ele.length,17);
+            var result = utils.status(totalParkings, parkingArr);
+            expect(result).to.be.equal(result);
             done();
       });
 });

@@ -90,17 +90,6 @@ var commands = async (input)=>{
         		console.log("Sorry, parking lot is full");
         	}
 			break;
-		case "File reading test":
-			console.log("File reading test");
-			break;
-		case "Read test input":
-			console.log("Read test input");
-			break;
-		case "Checking Commands":
-			console.log("Checking Commands");
-			break;
-		default:
-            console.log('Please enter predefined commands.Ex: create_parking_lot {capacity}, park {car_number}, leave {car_number} {hours}, status ');
 		}
 		interact();
 	};
