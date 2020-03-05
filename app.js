@@ -16,6 +16,16 @@ var utils = require('./config/utils.js');
 let totalParkings = 0;
 let parkingArr = [];
 
+
+
+var interact = async () =>{
+	if(elements[elements.length - 1] == 'true'){
+		var prompts = await rl.createInterface({ input: process.stdin, output: process.stdout, terminal: false });
+		prompts.question("Input: ", function (data) {
+		    commands(data);
+		});
+	}
+};
 if(elements[elements.length - 1] == 'true'){
 	interact();
 }
@@ -27,21 +37,13 @@ else{
 	   	}
 	});
 }
-function interact(){
-	if(elements[elements.length - 1] == 'true'){
-		var prompts = rl.createInterface({ input: process.stdin, output: process.stdout, terminal: false });
-		prompts.question("Input: ", function (data) {
-		    commands(data);
-		});
-	}
-}
 
 
-function commands(input){
+var commands = async (input)=>{
 	var n = input.split(" ")[0];
 	switch (n) {
 	    case "create_parking_lot":
-            totalParkings = utils.create_parking_lot(input);
+            totalParkings = await utils.create_parking_lot(input);
             try {
 				maxSize = parseInt(totalParkings);
 				for(var i=0; i < maxSize; i++){
@@ -57,7 +59,7 @@ function commands(input){
 	        break;
 	    case "park":
         	var len = parkingArr.length;
-        	var slotNumber = utils.park(totalParkings, parkingArr, len, input);
+        	var slotNumber = await utils.park(totalParkings, parkingArr, len, input);
         	if(slotNumber){
         		console.log("Allocated slot number: " + slotNumber);
         	}else{
@@ -65,7 +67,7 @@ function commands(input){
         	}
 	        break;
 	    case "leave":
-			var leftCharges = utils.leave(totalParkings, parkingArr, input);
+			var leftCharges = await utils.leave(totalParkings, parkingArr, input);
 			if (Array.isArray(leftCharges)){
 				if(leftCharges["match"]==0){
 					console.log("Registration number "+leftCharges["car"]+" not found");
@@ -81,18 +83,27 @@ function commands(input){
 			
 			break;
 	    case "status":
-			var values = utils.status(totalParkings, parkingArr);
-			console.log(values.length);
+			var values = await utils.status(totalParkings, parkingArr);
         	if(values.length > 1){
         		console.log(values.join("\n"));
         	}else{
         		console.log("Sorry, parking lot is full");
         	}
-	        break;
-	}
-	interact();
-}
-
+			break;
+		case "File reading test":
+			console.log("File reading test");
+			break;
+		case "Read test input":
+			console.log("Read test input");
+			break;
+		case "Checking Commands":
+			console.log("Checking Commands");
+			break;
+		default:
+            console.log('Please enter predefined commands.Ex: create_parking_lot {capacity}, park {car_number}, leave {car_number} {hours}, status ');
+		}
+		interact();
+	};
 
 //create nodejs http server that will listen to port given in config
 http.createServer((req,res)=>{

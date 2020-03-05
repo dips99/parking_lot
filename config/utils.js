@@ -8,7 +8,7 @@ module.exports = {
 	    	if(findParking(parkingArr) == true){
 		  		for(var i=0;i<len;i++){
 		  			if(parkingArr[i][i] == null){
-		  				var inp = input.split(" ")[1];
+						let inp = input.split(" ")[1];
 						parkingArr[i][i] = inp;
 						i = i + 1;
 						return i;
@@ -23,8 +23,8 @@ module.exports = {
     },
     leave : function(totalParkings, parkingArr, input){
 		if(totalParkings > 0){
-			var carnumber = input.split(" ")[1];
-			var time = input.split(" ")[2];	
+			let carnumber = input.split(" ")[1];
+			let time = input.split(" ")[2];	
 			if(time==undefined){	
 				return null;
 			}
@@ -42,7 +42,7 @@ module.exports = {
 		}
     },
     status: function(totalParkings, parkingArr){
-		var arr = new Array();
+		let arr = new Array();
     	if(totalParkings > 0){
         	arr.push("Slot No. Registration No.");
         	for(var i=0; i<parkingArr.length;i++){
@@ -51,7 +51,8 @@ module.exports = {
         			arr.push(e + ".  " + parkingArr[i][i].split(":")[0]);
 				}
 				else{
-					console.log('slot '+i+' is empty');
+					var e = i + 1;
+					console.log('slot '+e+' is empty');
 				}
         	}
         	return arr;
@@ -62,7 +63,7 @@ module.exports = {
 };
 
 function findParking(parkingArr){
-	var ele = false;
+	let ele = false;
 	for(var i=0; i<parkingArr.length; i++){
 		if(parkingArr[i][i] == null){
 			ele = true;
